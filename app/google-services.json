@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "686707992885",
+    "project_id": "upload-ds3m-geni",
+    "storage_bucket": "upload-ds3m-geni.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:686707992885:android:a74d9fb08c25eb7870047c",
+        "android_client_info": {
+          "package_name": "br.senai.sp.jandira.atividade_final"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1b0bVRjo3fquEaSW7Mk28hQKt_DONeEw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:686707992885:android:0a0ee875f16afe6b70047c",
+        "android_client_info": {
+          "package_name": "br.senai.sp.jandira.retrofit_api_livraria"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1b0bVRjo3fquEaSW7Mk28hQKt_DONeEw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:686707992885:android:4cfb17acffaba00070047c",
+        "android_client_info": {
+          "package_name": "br.senai.sp.jandira.upload_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1b0bVRjo3fquEaSW7Mk28hQKt_DONeEw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
