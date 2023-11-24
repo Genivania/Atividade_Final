@@ -9,8 +9,6 @@ import retrofit2.http.Path
 
 interface ApiService {
 
-    @GET("/usuario/listar/{NomeUsuario}")
-    suspend fun getUsuarioByID(@Path("NomeUsuario") NomeUsuario: String): Response<BaseResponse<CategoryResponse>>
 
     @POST("/usuario/cadastroUsuario")
     suspend fun createUsuario(@Body body: JsonObject): Response<JsonObject>

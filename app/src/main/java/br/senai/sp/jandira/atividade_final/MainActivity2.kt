@@ -213,21 +213,21 @@ class Imagem : AppCompatActivity() {
 
             if(result.isSuccessful){
                 val msg =  result.body()?.get("mensagemStatus")
-                Log.e("CREATING-CATEGORY", "CREATE CATEGORY SUCCESS: ${result.body()?.get("mensagemStatus")}")
+                Log.e("ok", "CREATE SUCCESS: ${result.body()?.get("mensagemStatus")}")
             }else{
-                Log.e("CREATING-CATEGORY", "ERROR: ${result.message()}")
+                Log.e("ok", "ERROR: ${result.message()}")
             }
         }
     }
 
-    private fun getUsuarioByID(){
-        lifecycleScope.launch {
-            val result = apiService.getUsuarioByID("1")
-            if(result.isSuccessful){
-                Log.e("GETTING-CATEGORY", "getUserByID: ${result.body()?.data}")
-            }else{
-                Log.e("GETTING-CATEGORY", "getUserByID: ${result.message()}")
-            }
-        }
-    }
+//    private fun getUsuarioByID(){
+//        lifecycleScope.launch {
+//            val result = apiService.getUsuarioByID("1")
+//            if(result.isSuccessful){
+//                Log.e("GETTING-CATEGORY", "getUserByID: ${result.body()?.data}")
+//            }else{
+//                Log.e("GETTING-CATEGORY", "getUserByID: ${result.message()}")
+//            }
+//        }
+//    }
 }
