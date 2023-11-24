@@ -18,7 +18,6 @@ import android.content.Intent
 import kotlinx.coroutines.launch
 
 
-
 class MainActivity2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,112 +25,116 @@ class MainActivity2 : AppCompatActivity() {
     }
 
 
+    class Imagem : AppCompatActivity() {
 
-class Imagem : AppCompatActivity() {
+        //ATRIBUTOS DE MANIPULAÇÃO DE ENDEREÇOS DAS IMAGENS
+        private var image: Uri? = null
 
-    //ATRIBUTOS DE MANIPULAÇÃO DE ENDEREÇOS DAS IMAGENS
-    private var image: Uri? = null
+        /* CONFIGURAÇÕES DO FIREBASE */
+        //DECLARAÇÃO DO STORAGE
+        private lateinit var storageRef: StorageReference
 
-    /* CONFIGURAÇÕES DO FIREBASE */
-    //DECLARAÇÃO DO STORAGE
-    private lateinit var storageRef: StorageReference
+        //DECLARAÇÃO DO FIRESTORE DATABASE
+        private lateinit var firebaseFirestore: FirebaseFirestore
 
-    //DECLARAÇÃO DO FIRESTORE DATABASE
-    private lateinit var firebaseFirestore: FirebaseFirestore
+        /* OBJETOS DE VIEW DA TELA */
+        //IMAGEVIEW
+        private var btnImg: ImageView? = null
 
-    /* OBJETOS DE VIEW DA TELA */
-    //IMAGEVIEW
-    private var btnImg: ImageView? = null
+        //BUTTON
+        private var btnUpload: Button? = null
 
-    //BUTTON
-    private var btnUpload: Button? = null
+        override fun onCreate(savedInstanceState: Bundle?) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_main2)
 
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main2)
+            initVars()
 
-        initVars()
+            //TESTE DE RECEBIMENTO DO JSON
+            val bodyJSON = intent.getStringExtra("bodyJSON")
+            Log.e("TESTE-JSON", bodyJSON.toString())
 
-        //TESTE DE RECEBIMENTO DO JSON
-        val bodyJSON = intent.getStringExtra("bodyJSON")
-        Log.e("TESTE-JSON", bodyJSON.toString())
-
-        //RECUPERA OS ELEMENTOS DE VIEW DE IMAGENS
-        btnImg = findViewById<ImageView>(R.id.img)
+            //RECUPERA OS ELEMENTOS DE VIEW DE IMAGENS
+            btnImg = findViewById<ImageView>(R.id.img)
 
 
-        //RECUPERA O ELEMENTO DE VIEW DE BUTTON
-        btnUpload = findViewById<Button>(R.id.btnSalvar)
+            //RECUPERA O ELEMENTO DE VIEW DE BUTTON
+            btnUpload = findViewById<Button>(R.id.btnSalvar)
 
-        //TRATAMENTO DO EVENTO DE CLICK DO BOTÃO DE IMAGEM GRANDE
-        btnImg?.setOnClickListener {
+            //TRATAMENTO DO EVENTO DE CLICK DO BOTÃO DE IMAGEM GRANDE
+            btnImg?.setOnClickListener {
 //            Toast.makeText(this,
 //                "BOTÃO DA IMAGEM GRANDE",
 //                 Toast.LENGTH_LONG).show()
-            resultLauncher.launch("image/*")
+                resultLauncher.launch("image/*")
 
-        }
+            }
 
-        //TRATAMENTO DO EVENTO DE CLICK DO BOTÃO DE CADASTRO
-        btnUpload?.setOnClickListener {
+            //TRATAMENTO DO EVENTO DE CLICK DO BOTÃO DE CADASTRO
+            btnUpload?.setOnClickListener {
 //            Toast.makeText(this,
 //                "BOTÃO DE CADASTRO",
 //                Toast.LENGTH_LONG).show()
-            uploadImage()
-        }
-    }
-
-    //LANÇADOR PARA RECUPERAR IMAGEM DA GALERIA PARA O UPLOAD
-    private val resultLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        image = it
-        btnImg?.setImageURI(image)
-        Log.e("IMG-GRD", image.toString())
-    }
-
-
-    //INICIALIZAÇÃO DAS VARIÁVEIS DO FIREBASE
-    private fun initVars() {
-        storageRef = FirebaseStorage.getInstance().reference.child("images")
-        firebaseFirestore = FirebaseFirestore.getInstance()
-    }
-
-
-    //FUNÇÃO DE UPLOAD
-    private fun uploadImage() {
-
-        image?.let {
-            val riversRef =
-                storageRef.child("${it.lastPathSegment}-${System.currentTimeMillis()}.jpg")
-            val uploadTask = riversRef.putFile(it)
-            uploadTask.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    riversRef.downloadUrl.addOnSuccessListener { uri ->
-                        val map = HashMap<String, Any>()
-                        map["pic"] = uri.toString()
-                        firebaseFirestore.collection("images").add(map)
-                            .addOnCompleteListener { firestoreTask ->
-                                if (firestoreTask.isSuccessful) {
-                                    Toast.makeText(this, "UPLOAD IMAGEM OK!", Toast.LENGTH_SHORT)
-                                        .show()
-                                } else {
-                                    Toast.makeText(
-                                        this,
-                                        firestoreTask.exception?.message,
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                                btnImg?.setImageResource(R.drawable.upload)
-                            }
-                    }
-                } else {
-                    Toast.makeText(this, task.exception?.message, Toast.LENGTH_SHORT).show()
-                    btnImg?.setImageResource(R.drawable.upload)
-                }
+                uploadImage()
             }
         }
 
-    }
+        //LANÇADOR PARA RECUPERAR IMAGEM DA GALERIA PARA O UPLOAD
+        private val resultLauncher =
+            registerForActivityResult(ActivityResultContracts.GetContent()) {
+                image = it
+                btnImg?.setImageURI(image)
+                Log.e("IMG-GRD", image.toString())
+            }
+
+
+        //INICIALIZAÇÃO DAS VARIÁVEIS DO FIREBASE
+        private fun initVars() {
+            storageRef = FirebaseStorage.getInstance().reference.child("images")
+            firebaseFirestore = FirebaseFirestore.getInstance()
+        }
+
+
+        //FUNÇÃO DE UPLOAD
+        private fun uploadImage() {
+
+            image?.let {
+                val riversRef =
+                    storageRef.child("${it.lastPathSegment}-${System.currentTimeMillis()}.jpg")
+                val uploadTask = riversRef.putFile(it)
+                uploadTask.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        riversRef.downloadUrl.addOnSuccessListener { uri ->
+                            val map = HashMap<String, Any>()
+                            map["pic"] = uri.toString()
+                            firebaseFirestore.collection("images").add(map)
+                                .addOnCompleteListener { firestoreTask ->
+                                    if (firestoreTask.isSuccessful) {
+                                        Toast.makeText(
+                                            this,
+                                            "UPLOAD IMAGEM OK!",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                            .show()
+                                    } else {
+                                        Toast.makeText(
+                                            this,
+                                            firestoreTask.exception?.message,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    btnImg?.setImageResource(R.drawable.upload)
+                                }
+                        }
+                    } else {
+                        Toast.makeText(this, task.exception?.message, Toast.LENGTH_SHORT).show()
+                        btnImg?.setImageResource(R.drawable.upload)
+                    }
+                }
+            }
+
+        }
 
     }
 
@@ -167,7 +170,8 @@ class Imagem : AppCompatActivity() {
                 //NAVEGAÇÃO PARA A TELA
                 val intent = Intent(
                     this,
-                    Cadastro::class.java).apply {
+                    Cadastro::class.java
+                ).apply {
                     putExtra("bodyJSON", body.toString())
                 }
 
@@ -200,22 +204,23 @@ class Imagem : AppCompatActivity() {
             }
 
         }
-    private fun createUsuario(nomeUsuario: String){
-        lifecycleScope.launch {
-            val body = JsonObject().apply {
-                addProperty("nomeUsuario", nomeUsuario)
-            }
 
-            val result =apiService.createUsuario(body)
+        private fun createUsuario(nomeUsuario: String) {
+            lifecycleScope.launch {
+                val body = JsonObject().apply {
+                    addProperty("nomeUsuario", nomeUsuario)
+                }
 
-            if(result.isSuccessful){
-                val msg =  result.body()?.get("mensagemStatus")
-                Log.e("ok", "CREATE SUCCESS: ${result.body()?.get("mensagemStatus")}")
-            }else{
-                Log.e("ok", "ERROR: ${result.message()}")
+                val result = apiService.createUsuario(body)
+
+                if (result.isSuccessful) {
+                    val msg = result.body()?.get("mensagemStatus")
+                    Log.e("ok", "CREATE SUCCESS: ${result.body()?.get("mensagemStatus")}")
+                } else {
+                    Log.e("ok", "ERROR: ${result.message()}")
+                }
             }
         }
-    }
 
 //    private fun getUsuarioByID(){
 //        lifecycleScope.launch {
@@ -227,4 +232,5 @@ class Imagem : AppCompatActivity() {
 //            }
 //        }
 //    }
+    }
 }
