@@ -1,7 +1,5 @@
 package br.senai.sp.jandira.atividade_final
 
-package br.senai.sp.jandira.atividade_final
-
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
