@@ -200,7 +200,6 @@ class Imagem : AppCompatActivity() {
             }
 
         }
-
     private fun createUsuario(nomeUsuario: String){
         lifecycleScope.launch {
             val body = JsonObject().apply {
