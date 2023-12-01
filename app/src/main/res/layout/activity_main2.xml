@@ -15,6 +15,12 @@ tools:context=".MainActivity2">
     tools:context=".MainActivity2">
 
 
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:srcCompat="@drawable/upload" />
+
     <EditText
         android:id="@+id/txtLogin"
         style="@style/editTextForm"
@@ -29,20 +35,17 @@ tools:context=".MainActivity2">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/senha"
-        android:inputType="numberDecimal" />
-
-    <ImageView
-        android:id="@+id/img"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        app:srcCompat="@drawable/upload" />
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/btnSalvar"
         style="@style/butonForm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/salvar" />
+        android:text="@string/salvar"
+        android:background="@color/purple_500"
+        android:textColor="@color/white"
+        />
 
 </LinearLayout>
 
